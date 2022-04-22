@@ -133,6 +133,10 @@ spec:
           ref: worker-subnets
         - name: kms_key
           ref: kms-key
+            - {"name":"allow-vpn-egress","action":"allow","direction":"inbound","source":"10.0.0.0/8", "destination":"0.0.0.0/0"}
+      dependencies:
+        - name: gateways
+          ref: ibm-vpc-gateways
     - name: ibm-vpc-subnets
       alias: vpe-subnets
       variables:
@@ -185,6 +189,16 @@ spec:
       dependencies:
         - name: resource_group
           ref: at_resource_group
+    - name: ibm-cloud-monitoring
+      variables:
+        - name: provision
+          value: false
+        - name: name_prefix
+          alias: cs_name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: cs_resource_group
     - name: ibm-object-storage-bucket
       alias: flow_log_bucket
       variables:
