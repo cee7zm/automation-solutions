@@ -137,6 +137,22 @@ spec:
       dependencies:
         - name: gateways
           ref: ibm-vpc-gateways
+    - name: ibm-ocp-vpc
+      alias: cluster
+      variables:
+        - name: disable_public_endpoint
+          value: true
+        - name: kms_enabled
+          value: true
+        - name: worker_count
+          alias: mgmt_worker_count
+        - name: ocp_version
+          value: 4.8
+      dependencies:
+        - name: subnets
+          ref: worker-subnets
+        - name: kms_key
+          ref: kms-key
     - name: ibm-vpc-subnets
       alias: vpe-subnets
       variables:
