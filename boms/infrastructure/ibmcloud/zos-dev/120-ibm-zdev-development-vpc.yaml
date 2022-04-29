@@ -70,8 +70,6 @@ spec:
       alias: worker-subnets
       variables:
         - name: _count
-          alias: mgmt_worker_subnet_count
-          scope: global
           value: 3
         - name: label
           value: worker
@@ -117,22 +115,6 @@ spec:
       dependencies:
         - name: gateways
           ref: ibm-vpc-gateways
-    - name: ibm-ocp-vpc
-      alias: cluster
-      variables:
-        - name: disable_public_endpoint
-          value: true
-        - name: kms_enabled
-          value: true
-        - name: worker_count
-          alias: mgmt_worker_count
-        - name: ocp_version
-          value: 4.8
-      dependencies:
-        - name: subnets
-          ref: worker-subnets
-        - name: kms_key
-          ref: kms-key
     - name: ibm-vpc-subnets
       alias: vpe-subnets
       variables:
@@ -185,6 +167,16 @@ spec:
       dependencies:
         - name: resource_group
           ref: at_resource_group
+    - name: ibm-cloud-monitoring
+      variables:
+        - name: provision
+          value: false
+        - name: name_prefix
+          alias: cs_name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: cs_resource_group
     - name: ibm-object-storage-bucket
       alias: flow_log_bucket
       variables:
@@ -200,8 +192,6 @@ spec:
           ref: cos
         - name: subnets
           ref: vpe-subnets
-        - name: sync
-          ref: cluster
     - name: ibm-transit-gateway
       variables:
         - name: provision
@@ -212,28 +202,6 @@ spec:
       dependencies:
         - name: resource-group
           ref: cs_resource_group
-    - name: ibm-log-analysis
-      variables:
-        - name: provision
-          value: false
-        - name: name_prefix
-          alias: cs_name_prefix
-          scope: global
-      dependencies:
-        - name: resource_group
-          ref: cs_resource_group
-    - name: ibm-cloud-monitoring
-      variables:
-        - name: provision
-          value: false
-        - name: name_prefix
-          alias: cs_name_prefix
-          scope: global
-      dependencies:
-        - name: resource_group
-          ref: cs_resource_group
-    - name: ibm-log-analysis-bind
-    - name: ibm-cloud-monitoring-bind
   variables:
     - name: mgmt_resource_group_name
     - name: region
@@ -243,5 +211,4 @@ spec:
       required: true
     - name: cs_resource_group_name
     - name: cs_name_prefix
-    - name: worker_count
     - name: kms_service
