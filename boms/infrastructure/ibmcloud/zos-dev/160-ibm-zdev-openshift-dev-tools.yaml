@@ -68,7 +68,9 @@ spec:
     - name: cluster-config
       variables:
         - name: banner_text
-          value: Management
+          value: z/OS Development
+        - name: banner_background_color
+          value: green
     - name: openshift-cicd
     - name: dashboard
     - name: pactbroker
